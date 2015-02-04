@@ -38,11 +38,11 @@ class YamlBuilderSpec extends ObjectBehavior
     function it_build_menu()
     {
         $this->buildMenu()->shouldReturnAnInstanceOf('FSi\Bundle\AdminBundle\Menu\Item\Item');
-        $this->buildMenu()->shouldHaveItem('News', 'news');
+        $this->buildMenu()->shouldHaveItem('news', 'news');
         $this->buildMenu()->shouldHaveItem('article', 'article');
-        $this->buildMenu()->shouldHaveItem('admin.menu.structure', false);
-        $this->buildMenu()->shouldHaveItemThatHaveChild('admin.menu.structure', 'home_page', 'home_page');
-        $this->buildMenu()->shouldHaveItemThatHaveChild ('admin.menu.structure', 'Contact', 'contact');
+        $this->buildMenu()->shouldHaveItem('structure', false);
+        $this->buildMenu()->shouldHaveItemThatHaveChild('structure', 'home_page', 'home_page');
+        $this->buildMenu()->shouldHaveItemThatHaveChild ('structure', 'contact', 'contact');
     }
 
     public function getMatchers()

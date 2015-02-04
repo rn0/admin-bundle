@@ -1,1 +1,2 @@
-- {id : news, name: "News"}
+news:
+  label: "News"

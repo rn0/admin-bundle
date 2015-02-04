@@ -6,36 +6,44 @@ By default menu is empty and you should configure it in ``app/config/admin_menu.
 ```
 # app/config/admin_menu.yml
 
+# Your application has following admin elements: news, subscriber, home_page, about_us_page
+
 menu:
-  - news
-  - Structure:
-    - home_page
-    - about_us_page
+  news:
+    label: admin.news.name
+  subscriber_item:
+    element_id: subscriber
+    label: admin.subscriber.name
+  group:
+    label: admin.group.name
+    children:
+      home_page:
+       label: admin.home_page.name
+      about_us_page:
+        label: admin.about_us_page.name
 ```
 
 About menu will display link to admin element with id "news" and dropdown button that
 have links to elements with "home_page" and "about_us_page" id.
 
-## Translating groups
+## Translating labels
 
-Group names are translated so you can also use translations key:
+Labels are translated:
 
 ```
 # app/config/admin_menu.yml
 
 menu:
-  - news
-  - admin.page.structure:
-    - home_page
-    - about_us_page
+  news:
+    label: admin.news.name
 ```
 
 ```
 # app/Resources/translations/messages.en.yml
 
 admin:
-  page:
-    structure: Structure
+  news:
+    name: News
 ```
 
 [Back to index](index.md)

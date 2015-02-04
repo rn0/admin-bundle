@@ -72,41 +72,33 @@ class YamlBuilder implements Builder
 
     private function populateMenu(Item $menu, array $configs)
     {
-        foreach ($configs as $itemConfig) {
-            $item = $this->buildSingleItem($itemConfig);
+        foreach ($configs as $name => $itemConfig) {
+            $item = $this->itemFactory($name, $itemConfig);
 
-            if (null !== $item) {
-                $item->setOptions(array('attr' => array('class' => 'admin-element',)));
+            if ($this->hasEntry($itemConfig, 'label')) {
+                $item->setLabel($itemConfig['label']);
             }
 
-            if (null === $item && is_array($itemConfig)) {
-                $item = new Item(key($itemConfig));
-                $group = array_values($itemConfig);
-                $this->populateMenu($item, $group[0]);
+            if ($this->hasEntry($itemConfig, 'children')) {
+                $item->setOptions(array('attr' => array('class' => 'admin-element',)));
+                $this->populateMenu($item, $itemConfig['children']);
             }
 
             $menu->addChild($item);
         }
     }
 
-    private function buildSingleItem($itemConfig)
+    private function itemFactory($name, $itemConfig)
     {
-        if (is_string($itemConfig)) {
-            if ($this->manager->hasElement($itemConfig)) {
-                return new ElementItem($itemConfig, $this->manager->getElement($itemConfig));
-            }
-
-            return new Item($itemConfig);
+        if ($this->manager->hasElement($name)) {
+            return new ElementItem($name, $this->manager->getElement($name));
         }
 
-        if (!$this->hasEntry($itemConfig, 'id')) {
-            return null;
+        if ($this->hasEntry($itemConfig, 'element_id') && $this->manager->hasElement($itemConfig['element_id'])) {
+            return new ElementItem($name, $this->manager->getElement($itemConfig['element_id']));
         }
 
-        return new ElementItem(
-            ($this->hasEntry($itemConfig, 'name')) ? $itemConfig['name'] : $itemConfig['id'],
-            $this->manager->getElement($itemConfig['id'])
-        );
+        return new Item($name);
     }
 
     private function hasEntry($itemConfig, $keyName)

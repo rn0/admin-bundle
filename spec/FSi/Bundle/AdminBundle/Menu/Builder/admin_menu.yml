@@ -1,6 +1,12 @@
 menu:
-  - {id : news, name: "News"}
-  - article
-  - admin.menu.structure:
-    - home_page
-    - {id: contact, name: "Contact"}
+  news:
+    label: "News"
+  article:
+    label: "Article"
+  structure:
+    label: admin.menu.structure
+    children:
+      home_page:
+       label: "Home page"
+      contact:
+        label: "Contact"
